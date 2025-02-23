@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carselection } from './vehicle-selection/Carselection';
+import { Carselection } from '../vehicle-selection/Carselection';
 import { OptionsSelection } from './driving-options/OptionsSelection';
 
 const Configuration = () => {
