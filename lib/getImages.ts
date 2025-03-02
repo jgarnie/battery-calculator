@@ -4,6 +4,40 @@ export type TCarImageItem = {
 };
 
 export const getImagesList = async (): Promise<TCarImageItem[] | []> => {
+  return [
+    {
+      model: 'AdobeStock_545138265_Preview',
+      url: 'https://input-3d-assets.s3.amazonaws.com/AdobeStock_545138265_Preview.jpeg',
+    },
+    {
+      model: 'AdobeStock_916739164_Preview',
+      url: 'https://input-3d-assets.s3.amazonaws.com/AdobeStock_916739164_Preview.jpeg',
+    },
+    {
+      model: 'AdobeStock_963986254_Preview',
+      url: 'https://input-3d-assets.s3.amazonaws.com/AdobeStock_963986254_Preview.jpeg',
+    },
+    {
+      model: 'BMW i3',
+      url: 'https://input-3d-assets.s3.amazonaws.com/BMW i3.jpeg',
+    },
+    {
+      model: 'Nissan Leaf',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Nissan Leaf.jpeg',
+    },
+    {
+      model: 'Renault Zoe',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Renault Zoe.jpeg',
+    },
+    {
+      model: 'Tesla Model 3',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Tesla Model 3.jpg',
+    },
+    {
+      model: 'Volkswagen ID.3',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Volkswagen ID.3.jpeg',
+    },
+  ];
   const res = await fetch('/api/images');
   if (!res.ok) throw new Error('Failed to fetch data');
   const data = await res.json();
@@ -12,7 +46,6 @@ export const getImagesList = async (): Promise<TCarImageItem[] | []> => {
     console.error('Error car fetching Images');
     return [];
   }
-
   return data.body.model.map((modelElement: TCarImageItem) => {
     return {
       model: modelElement.model.slice(0, modelElement.model.lastIndexOf('.')),

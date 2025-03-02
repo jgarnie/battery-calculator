@@ -1,6 +1,15 @@
 'use client';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { TVehicleDataTransformed } from './VehicleDataContext';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
+import {
+  TVehicleDataTransformed,
+  useVehicleDataContext,
+} from './VehicleDataContext';
 
 type VehicleSelectionContextValue = {
   selectedVehicle: TVehicleDataTransformed | undefined;
@@ -20,6 +29,11 @@ export function VehicleSelectionContextWrapper({
 }) {
   const [selectedVehicle, setSelectedVehicle] =
     useState<TVehicleDataTransformed>();
+  const { vehicleList } = useVehicleDataContext();
+
+  useEffect(() => {
+    setSelectedVehicle(vehicleList[0]);
+  }, [vehicleList]);
 
   return (
     <VehicleSelectionContext.Provider

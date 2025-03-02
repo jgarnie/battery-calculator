@@ -1,13 +1,14 @@
+'use client';
 import Configuration from '../components/configuration/Configuration';
 import { VehicleOverview } from '../components/overview/VehicleOverview';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './styles/theme';
 
 export default function Home() {
   return (
-    <div className="w-[90%] bg-slate-500 m-auto sm:w-[80%] flex flex-row-reverse justify-end">
+    <ThemeProvider theme={theme}>
       <VehicleOverview />
-      <div>
-        <Configuration />
-      </div>
-    </div>
+      <Configuration />
+    </ThemeProvider>
   );
 }

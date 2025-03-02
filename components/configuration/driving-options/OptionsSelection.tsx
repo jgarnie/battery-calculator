@@ -1,10 +1,10 @@
 import React from 'react';
-import { ResizableHandleDemo } from './Resizable';
+import { DrivingConditionSlider } from './Resizable';
 
 export const OptionsSelection = () => {
   return (
     <div>
-      <ResizableHandleDemo />
+      <DrivingConditionSlider />
     </div>
   );
 };

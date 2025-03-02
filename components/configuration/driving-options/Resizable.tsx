@@ -5,7 +5,7 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 
-export function ResizableHandleDemo() {
+export function DrivingConditionSlider() {
   return (
     <ResizablePanelGroup
       direction="horizontal"
