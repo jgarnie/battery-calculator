@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { VehicleDataContextWrapper } from './contexts/VehicleDataContext';
 import { VehicleSelectionContextWrapper } from './contexts/VehicleSelectionContext';
+import { AppConfigurationContextWrapper } from './contexts/AppConfigurationContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,11 +30,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <VehicleDataContextWrapper>
-          <VehicleSelectionContextWrapper>
-            {children}
-          </VehicleSelectionContextWrapper>
-        </VehicleDataContextWrapper>
+        <AppConfigurationContextWrapper>
+          <VehicleDataContextWrapper>
+            <VehicleSelectionContextWrapper>
+              {children}
+            </VehicleSelectionContextWrapper>
+          </VehicleDataContextWrapper>
+        </AppConfigurationContextWrapper>
       </body>
     </html>
   );
