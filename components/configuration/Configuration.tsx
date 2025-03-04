@@ -4,6 +4,10 @@ import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionC
 
 import { useAppConfigurationContext } from '../../app/contexts/AppConfigurationContext';
 import ComfortSelect from './battery-options/ComfortSelect';
+import Temperature from './battery-options/Temperature';
+import { TypeOfRoad } from './battery-options/TypeOfRoad';
+import DrivingStyle from './battery-options/DrivingStyle';
+import SeasonSelect from './battery-options/SeasonSelect';
 
 const StyledConfigurationContainer = styled.div`
   display: flex;
@@ -19,6 +23,10 @@ const Configuration = () => {
   return (
     <StyledConfigurationContainer>
       <ComfortSelect />
+      <Temperature />
+      <TypeOfRoad />
+      <DrivingStyle />
+      <SeasonSelect />
     </StyledConfigurationContainer>
   );
 };
