@@ -2,9 +2,15 @@
 import React from 'react';
 
 import { VehicleSelect } from './Select';
-import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
+import CarImage from './CarImage';
+import VehicleEfficiency from './VehicleEfficiencyValue';
 
 export const VehicleOverview = () => {
-  const { selectedVehicle } = useVehicleSelectionContext();
-  return selectedVehicle ? <VehicleSelect /> : <p>loading</p>;
+  return (
+    <>
+      <VehicleSelect />
+      <CarImage />
+      <VehicleEfficiency />
+    </>
+  );
 };

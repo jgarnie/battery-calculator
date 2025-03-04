@@ -8,9 +8,12 @@ import React, {
 } from 'react';
 import { getConfiguration } from '../../lib/getConfiguration';
 
+type TAppConfigurationElement = {
+  id: string;
+  type: string;
+};
 type TAppConfigurationContext = {
-  appConfiguration: string[] | [];
-  setAppConfiguration: React.Dispatch<React.SetStateAction<string[] | []>>;
+  appConfiguration: TAppConfigurationElement[] | [];
 };
 const AppConfigurationContext = createContext<
   TAppConfigurationContext | undefined
@@ -21,7 +24,9 @@ export function AppConfigurationContextWrapper({
 }: {
   children: ReactNode;
 }) {
-  const [appConfiguration, setAppConfiguration] = useState<string[] | []>([]);
+  const [appConfiguration, setAppConfiguration] = useState<
+    TAppConfigurationElement[] | []
+  >([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -35,7 +40,6 @@ export function AppConfigurationContextWrapper({
   return (
     <AppConfigurationContext.Provider
       value={{
-        setAppConfiguration,
         appConfiguration,
       }}
     >

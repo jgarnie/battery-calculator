@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
 export type VehicleDataApi = z.TypeOf<typeof VehicleData>;
+export type PartOfYear = z.TypeOf<typeof PartOfYearSchema>;
+export type TypeOfRoad = z.TypeOf<typeof TypeOfRoadSchema>;
+export type DrivingStyle = z.TypeOf<typeof DrivingStyleSchema>;
 
 const PartOfYearSchema = z.object({
   summer: z.number(),
