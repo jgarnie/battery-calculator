@@ -6,14 +6,13 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import { getConfiguration } from '../../lib/getConfiguration';
+import {
+  getConfiguration,
+  TAppConfigurationApi,
+} from '../../lib/getConfiguration';
 
-type TAppConfigurationElement = {
-  id: string;
-  type: string;
-};
 type TAppConfigurationContext = {
-  appConfiguration: TAppConfigurationElement[] | [];
+  appConfiguration: TAppConfigurationApi[] | [];
 };
 const AppConfigurationContext = createContext<
   TAppConfigurationContext | undefined
@@ -25,7 +24,7 @@ export function AppConfigurationContextWrapper({
   children: ReactNode;
 }) {
   const [appConfiguration, setAppConfiguration] = useState<
-    TAppConfigurationElement[] | []
+    TAppConfigurationApi[] | []
   >([]);
 
   useEffect(() => {

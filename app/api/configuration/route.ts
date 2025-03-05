@@ -18,7 +18,7 @@ const CONFIGURATION_OPTIONS = [
     type: 'unknown',
   },
   {
-    id: 'interiorConfort',
+    id: 'interiorComfort',
     type: 'radio',
   },
   {

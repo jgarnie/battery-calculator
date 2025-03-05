@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export type VehicleDataApi = z.TypeOf<typeof VehicleData>;
+export type VehicleDataApi = z.TypeOf<typeof VehicleDataSchema>;
+export type VehicleData = z.TypeOf<typeof VehicleDataSchema>;
 export type PartOfYear = z.TypeOf<typeof PartOfYearSchema>;
 export type TypeOfRoad = z.TypeOf<typeof TypeOfRoadSchema>;
 export type DrivingStyle = z.TypeOf<typeof DrivingStyleSchema>;
@@ -23,7 +24,7 @@ const DrivingStyleSchema = z.object({
   aggressive: z.number(),
 });
 
-const VehicleData = z.object({
+const VehicleDataSchema = z.object({
   name: z.string(),
   partOfYear: PartOfYearSchema,
   typeOfRoad: TypeOfRoadSchema,
@@ -39,7 +40,7 @@ export const getCarList = async (): Promise<VehicleDataApi[]> => {
   const data = await res.json();
 
   const sanitizedData = data.map((vehicleData: unknown) => {
-    const parseVehicleData = VehicleData.safeParse(vehicleData);
+    const parseVehicleData = VehicleDataSchema.safeParse(vehicleData);
     if (parseVehicleData.success) {
       return parseVehicleData.data;
     }
