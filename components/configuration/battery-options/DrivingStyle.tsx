@@ -1,8 +1,31 @@
 import React from 'react';
 import { OptionsSelection } from '../options-selection/OptionsSelection';
+import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 
 const DrivingStyle = () => {
-  return <OptionsSelection />;
+  const { selectedVehicle } = useVehicleSelectionContext();
+
+  if (!selectedVehicle) return;
+  const {
+    drivingStyle: { aggressive, normal, snail },
+  } = selectedVehicle;
+
+  const drivingStyleData = [
+    {
+      label: 'Agressive',
+      value: aggressive,
+    },
+    {
+      label: 'Normal',
+      value: normal,
+    },
+    {
+      label: 'Eco',
+      value: snail,
+    },
+  ];
+
+  return <OptionsSelection data={drivingStyleData} type={'drivingStyle'} />;
 };
 
 export default DrivingStyle;

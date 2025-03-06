@@ -6,10 +6,10 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import { getCarList, VehicleDataApi } from '../../lib/getCarList';
+import { getCarList, TVehicleDataApi } from '../../lib/getCarList';
 import { getImagesList, TCarImageItem } from '../../lib/getImages';
 
-export type TVehicleDataTransformed = VehicleDataApi & {
+export type TVehicleDataTransformed = TVehicleDataApi & {
   imageUrl: string;
 };
 
@@ -33,7 +33,10 @@ export function VehicleDataContextWrapper({
     TVehicleDataTransformed[] | []
   >([]);
 
-  const addVehicleImage = (data: VehicleDataApi[], images: TCarImageItem[]) => {
+  const addVehicleImage = (
+    data: TVehicleDataApi[],
+    images: TCarImageItem[]
+  ) => {
     return data.reduce<TVehicleDataTransformed[]>((acc, car) => {
       const imageUrl = images.find((imageData) => imageData.model === car.name);
 

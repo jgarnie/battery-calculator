@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
+//import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 
 export async function GET() {
   try {

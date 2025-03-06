@@ -38,6 +38,7 @@ function ResizableHandle({
   isEnd?: boolean;
 }) {
   const dragIconPosition = isEnd ? 'end' : 'start';
+
   return (
     <ResizablePrimitive.PanelResizeHandle
       data-slot="resizable-handle"

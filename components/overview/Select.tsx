@@ -73,7 +73,12 @@ export const VehicleSelect = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+  // <div
+  // className="flex justify-between w-1/2 max-w-[220px]"
+  // ref={selectRef}
+  // onClick={() => setIsOpen(!isOpen)}
+  // role="button"
+  // >
   return (
     <StyledSelect
       ref={selectRef}

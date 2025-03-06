@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-export type VehicleDataApi = z.TypeOf<typeof VehicleDataSchema>;
-export type VehicleData = z.TypeOf<typeof VehicleDataSchema>;
-export type PartOfYear = z.TypeOf<typeof PartOfYearSchema>;
-export type TypeOfRoad = z.TypeOf<typeof TypeOfRoadSchema>;
-export type DrivingStyle = z.TypeOf<typeof DrivingStyleSchema>;
+export type TVehicleDataApi = z.TypeOf<typeof VehicleDataSchema>;
+export type TVehicleData = z.TypeOf<typeof VehicleDataSchema>;
+export type TPartOfYear = z.TypeOf<typeof PartOfYearSchema>;
+export type TTypeOfRoad = z.TypeOf<typeof TypeOfRoadSchema>;
+export type TDrivingStyle = z.TypeOf<typeof DrivingStyleSchema>;
 
 const PartOfYearSchema = z.object({
   summer: z.number(),
@@ -34,7 +34,7 @@ const VehicleDataSchema = z.object({
   coolingConsumption: z.number(),
 });
 
-export const getCarList = async (): Promise<VehicleDataApi[]> => {
+export const getCarList = async (): Promise<TVehicleDataApi[]> => {
   const res = await fetch('/api/cars');
   if (!res.ok) throw new Error('Failed to fetch data');
   const data = await res.json();
@@ -47,6 +47,6 @@ export const getCarList = async (): Promise<VehicleDataApi[]> => {
 
     return undefined;
   });
-  console.log('fetch', sanitizedData);
+
   return sanitizedData.filter(Boolean);
 };
