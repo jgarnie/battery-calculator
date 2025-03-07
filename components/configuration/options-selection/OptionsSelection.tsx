@@ -5,7 +5,7 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
-import { useEffect, useRef } from 'react';
+import { useRef, useCallback, Fragment } from 'react';
 
 export const OptionsSelection = ({
   data,
@@ -18,49 +18,45 @@ export const OptionsSelection = ({
     useVehicleSelectionContext();
   const layoutSafe = useRef(false);
 
-  if (!selectedVehicle) return;
-  const { fullRange } = selectedVehicle;
+  const calculateEfficiency = useCallback(
+    (values: number[]) => {
+      if (!layoutSafe.current) return;
+      const efficiencyValues = values.map((value, index) => {
+        const efficiency = data[index]?.value || 0;
+        const fullRange = selectedVehicle?.fullRange || 500;
+        return (efficiency / fullRange) * value;
+      });
 
-  const calculateEfficiency = (values: number[]) => {
-    if (!layoutSafe.current) return;
-    const valueCoeffiecy = values.map((value, index) => {
-      const efficiency = data[index].value;
+      const arithmeticMean =
+        efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
 
-      return (efficiency / fullRange) * value;
-    });
-
-    const arithmeticMean =
-      valueCoeffiecy.reduce((acc, val) => acc + val, 0) / 100;
-    handleEfficiencyValueChange({ [type]: arithmeticMean });
-    return arithmeticMean;
-  };
+      handleEfficiencyValueChange({ [type]: arithmeticMean });
+    },
+    [data, handleEfficiencyValueChange, selectedVehicle?.fullRange, type]
+  );
 
   return (
-    <>
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]"
-        onLayout={calculateEfficiency}
-        onMouseEnter={() => (layoutSafe.current = true)}
-      >
-        <ResizablePanel>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">{data[0].label}</span>
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">{data[1].label}</span>
-          </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle isEnd />
-        <ResizablePanel>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">{data[2].label}</span>
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </>
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]"
+      onLayout={calculateEfficiency}
+      onMouseEnter={() => (layoutSafe.current = true)}
+    >
+      {data.map((item, index) => (
+        <Fragment key={`${index}-${item.label}`}>
+          <ResizablePanel>
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">{item.label}</span>
+            </div>
+          </ResizablePanel>
+          {index < data.length - 1 && (
+            <ResizableHandle
+              withHandle
+              classEl={index < data.length - 2 ? 'self-start' : 'self-end'}
+            />
+          )}
+        </Fragment>
+      ))}
+    </ResizablePanelGroup>
   );
 };
