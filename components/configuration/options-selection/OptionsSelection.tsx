@@ -4,6 +4,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
+import Image from 'next/image';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { useRef, useCallback, Fragment } from 'react';
 
@@ -38,25 +39,38 @@ export const OptionsSelection = ({
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="min-h-[100px] max-w-md rounded-lg border md:min-w-[450px]"
+      className="min-h-[50px] rounded-lg border md:min-w-full"
       onLayout={calculateEfficiency}
       onMouseEnter={() => (layoutSafe.current = true)}
     >
-      {data.map((item, index) => (
-        <Fragment key={`${index}-${item.label}`}>
-          <ResizablePanel>
-            <div className="flex h-full items-center justify-center p-6">
-              <span className="font-semibold">{item.label}</span>
-            </div>
-          </ResizablePanel>
-          {index < data.length - 1 && (
-            <ResizableHandle
-              withHandle
-              classEl={index < data.length - 2 ? 'self-start' : 'self-end'}
-            />
-          )}
-        </Fragment>
-      ))}
+      {data.map((item, index) => {
+        console.log({ item });
+        console.log(`/images/${item.label.toLowerCase()}.png`);
+
+        return (
+          <Fragment key={`${index}-${item.label}`}>
+            <ResizablePanel>
+              <div className="flex-col h-full items-center justify-center p-1 gap-1 bg-accent">
+                <div className="flex justify-center">
+                  <Image
+                    width={24}
+                    height={24}
+                    alt={`icon of a ${item.label}`}
+                    src={`/images/${item.label.toLowerCase()}.png`}
+                  />
+                </div>
+                <div className="flex justify-center">{item.label}</div>
+              </div>
+            </ResizablePanel>
+            {index < data.length - 1 && (
+              <ResizableHandle
+                withHandle
+                classEl={index < data.length - 2 ? 'self-start' : 'self-end'}
+              />
+            )}
+          </Fragment>
+        );
+      })}
     </ResizablePanelGroup>
   );
 };

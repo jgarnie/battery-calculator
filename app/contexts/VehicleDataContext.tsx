@@ -37,6 +37,8 @@ export function VehicleDataContextWrapper({
     data: TVehicleDataApi[],
     images: TCarImageItem[]
   ) => {
+    console.log({ data, images });
+
     return data.reduce<TVehicleDataTransformed[]>((acc, car) => {
       const imageUrl = images.find((imageData) => imageData.model === car.name);
 
@@ -55,6 +57,7 @@ export function VehicleDataContextWrapper({
     const getData = async () => {
       const data = await getCarList();
       const images = await getImagesList();
+      console.log(images);
 
       const transFormedVehicleList = addVehicleImage(data, images);
 

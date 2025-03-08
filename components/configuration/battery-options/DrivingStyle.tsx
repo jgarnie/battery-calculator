@@ -13,7 +13,7 @@ const DrivingStyle = () => {
 
   const drivingStyleData = [
     {
-      label: 'Agressive',
+      label: 'Aggressive',
       value: aggressive,
     },
     {

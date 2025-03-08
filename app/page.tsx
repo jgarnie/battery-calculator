@@ -6,28 +6,45 @@ import { theme } from './styles/theme';
 
 const StyledAppWrapper = styled.div`
   display: flex;
-  height: 100vh;
-  padding: 10px;
+  padding: 5px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  max-height: 100vh;
+
+  @media (orientation: landscape) {
+    flex-direction: row;
+  }
+  @media (min-width: 960px) {
+    flex-direction: row;
+  }
 `;
 
 const StyledCockpit = styled.div`
-  width: 35%;
+  width: 100%;
   padding: 10px;
+  @media (min-width: 960px) {
+    flex-direction: row;
+    width: 35%;
+  }
 `;
 const StyledVehicleOverview = styled.div`
-  width: 60%;
+  width: 100%;
   padding: 10px;
+  @media (min-width: 960px) {
+    flex-direction: row;
+    width: 60%;
+  }
 `;
 export default function Home() {
   return (
     <ThemeProvider theme={theme}>
       <StyledAppWrapper>
-        <StyledCockpit>
-          <Configuration />
-        </StyledCockpit>
         <StyledVehicleOverview>
           <VehicleOverview />
         </StyledVehicleOverview>
+        <StyledCockpit>
+          <Configuration />
+        </StyledCockpit>
       </StyledAppWrapper>
     </ThemeProvider>
   );

@@ -23,7 +23,7 @@ export const getImagesList = async (): Promise<TCarImageItem[] | []> => {
     },
     {
       model: 'Nissan Leaf',
-      url: 'https://input-3d-assets.s3.amazonaws.com/Nissan Leaf.jpeg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Nissan Leaf.jpg',
     },
     {
       model: 'Renault Zoe',
@@ -40,13 +40,14 @@ export const getImagesList = async (): Promise<TCarImageItem[] | []> => {
   ];
   const res = await fetch('/api/images');
   if (!res.ok) throw new Error('Failed to fetch data');
-  const data = await res.json();
+  const { payload } = await res.json();
 
-  if (data.statusCode !== 200) {
+  if (payload.statusCode !== 200) {
     console.error('Error car fetching Images');
     return [];
   }
-  return data.body.model.map((modelElement: TCarImageItem) => {
+
+  return payload.body.model.map((modelElement: TCarImageItem) => {
     return {
       model: modelElement.model.slice(0, modelElement.model.lastIndexOf('.')),
       url: modelElement.url,

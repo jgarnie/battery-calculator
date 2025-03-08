@@ -11,10 +11,18 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import styled, { css } from 'styled-components';
 
 const StyledSelect = styled.div`
-  width: 50%;
-  max-width: 220px;
+  width: 100%;
   position: relative;
   background-color: ${({ theme }) => theme.color.background};
+  position: sticky;
+  top: 0;
+  max-height: 50px;
+
+  @media (min-width: 960px) {
+    width: 50%;
+    max-width: 220px;
+    align-self: flex-end;
+  }
 `;
 const StyledSelectButton = styled.div`
   display: flex;
@@ -69,6 +77,7 @@ export const VehicleSelect = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  // refactor to tailwind
   // <div
   // className="flex justify-between w-1/2 max-w-[220px]"
   // ref={selectRef}

@@ -1,18 +1,18 @@
 import React from 'react';
 import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
-import styled from 'styled-components';
+import Image from 'next/image';
 
-const StyledImage = styled.img`
-  height: auto;
-  width: 90%;
-`;
 const CarImage = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
-
+  if (!selectedVehicle?.imageUrl) return;
   return (
-    <div>
-      <StyledImage src={selectedVehicle?.imageUrl} />
-    </div>
+    <Image
+      src={selectedVehicle?.imageUrl}
+      height={400}
+      width={500}
+      alt={`image of a ${selectedVehicle.name}`}
+      className="w-full h-full"
+    />
   );
 };
 

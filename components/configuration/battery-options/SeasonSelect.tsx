@@ -20,12 +20,12 @@ const SeasonSelect = () => {
     handleEfficiencyValueChange({ partOfYear: seasonValue / fullRange });
   };
 
-  const seasonArray = ['winter', 'summer', 'autum'];
+  const seasonArray = ['winter', 'summer', 'autumn'];
   const getSeasonValue = (season: string) => {
     switch (season) {
       case 'winter':
         return winter;
-      case 'autum':
+      case 'autumn':
         return autumn;
       case 'summer':
         return summer;
@@ -44,7 +44,7 @@ const SeasonSelect = () => {
               value={getSeasonValue(season)}
               key={season}
               onClick={handleClick}
-              className="flex-grow max-h-[50px] flex items-center justify-center max-w-[33%]"
+              className="flex-col flex-grow  items-center justify-center max-w-[33%]"
               $isActive={selectedSeason === season}
               label={season}
             >
@@ -53,8 +53,10 @@ const SeasonSelect = () => {
                 alt={`image of ${season}`}
                 width={20}
                 height={20}
-                className="w-full h-full object-contain"
+                className="w-[20px] h-[20px]"
               />
+              {season.charAt(0).toUpperCase()}
+              {season.substring(1)}
             </Button>
           );
         })}
