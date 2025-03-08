@@ -5,34 +5,75 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
-import { useRef, useCallback, Fragment } from 'react';
+import { useRef, useCallback, Fragment, useMemo } from 'react';
+import { TVehicleDataTransformed } from '../../../app/contexts/VehicleDataContext';
 
 export const OptionsSelection = ({
-  data,
   type,
 }: {
-  data: { label: string; value: number }[];
-  type: string;
+  type: keyof TVehicleDataTransformed;
 }) => {
   const { selectedVehicle, handleEfficiencyValueChange } =
     useVehicleSelectionContext();
   const layoutSafe = useRef(false);
 
+  const data = useMemo(
+    () =>
+      type === 'typeOfRoad'
+        ? [
+            {
+              label: 'City',
+              value: 'city',
+            },
+            {
+              label: 'Highway',
+              value: 'highway',
+            },
+            {
+              label: 'Secondary',
+              value: 'outsideCity',
+            },
+          ]
+        : [
+            {
+              label: 'Agressive',
+              value: 'aggressive',
+            },
+            {
+              label: 'Normal',
+              value: 'normal',
+            },
+            {
+              label: 'Eco',
+              value: 'snail',
+            },
+          ],
+    [type]
+  );
+
   const calculateEfficiency = useCallback(
     (values: number[]) => {
       if (!layoutSafe.current) return;
-      const efficiencyValues = values.map((value, index) => {
-        const efficiency = data[index]?.value || 0;
-        const fullRange = selectedVehicle?.fullRange || 500;
-        return (efficiency / fullRange) * value;
+      selectedVehicle.map((vehicleRecord) => {
+        return Object.entries(vehicleRecord).map(([vehicleName, vehicle]) => {
+          const efficiencyValues = values.map((value, index) => {
+            const vehicleData = vehicle[type];
+            const efficiencyParameter = data[index].value;
+            const efficiency =
+              vehicleData[efficiencyParameter as keyof typeof vehicleData];
+            const fullRange = vehicle.fullRange;
+            return (efficiency / fullRange) * value;
+          });
+
+          const arithmeticMean =
+            efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
+          return handleEfficiencyValueChange(vehicleName, {
+            [type]: arithmeticMean,
+          });
+        });
       });
-
-      const arithmeticMean =
-        efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
-
-      handleEfficiencyValueChange({ [type]: arithmeticMean });
     },
-    [data, handleEfficiencyValueChange, selectedVehicle?.fullRange, type]
+    [data, handleEfficiencyValueChange, selectedVehicle, type]
   );
 
   return (
@@ -43,7 +84,7 @@ export const OptionsSelection = ({
       onMouseEnter={() => (layoutSafe.current = true)}
     >
       {data.map((item, index) => (
-        <Fragment key={`${index}-${item.label}`}>
+        <Fragment key={`${index}-${item}`}>
           <ResizablePanel>
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">{item.label}</span>

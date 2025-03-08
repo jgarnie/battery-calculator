@@ -1,9 +1,12 @@
 import React from 'react';
-import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
+import { TVehicleDataTransformed } from '../../app/contexts/VehicleDataContext';
 
-const VehicleEfficiency = () => {
-  const { range } = useVehicleSelectionContext();
-  return <div>{range}</div>;
+const VehicleEfficiency = ({
+  vehicle,
+}: {
+  vehicle: TVehicleDataTransformed;
+}) => {
+  return <div>{vehicle.fullRange}</div>;
 };
 
 export default VehicleEfficiency;

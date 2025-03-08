@@ -49,13 +49,20 @@ const StyledImage = styled.img`
   margin-right: 4px;
 `;
 
-export const VehicleSelect = () => {
+export const VehicleSelect = ({
+  vehicle,
+}: {
+  vehicle: TVehicleDataTransformed;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { vehicleList } = useVehicleDataContext();
-  const { selectedVehicle, setSelectedVehicle } = useVehicleSelectionContext();
+  const { selectedVehicle, handleSelectMultipleVehicles } =
+    useVehicleSelectionContext();
   const selectRef = useRef<HTMLDivElement | null>(null);
-  const handleVehicleSelection = (vehicleName: TVehicleDataTransformed) => {
-    setSelectedVehicle(vehicleName);
+  const handleVehicleSelection = (
+    vehicleSelected: Record<string, TVehicleDataTransformed>
+  ) => {
+    handleSelectMultipleVehicles(vehicleSelected);
   };
 
   useEffect(() => {
@@ -86,20 +93,24 @@ export const VehicleSelect = () => {
       role="button"
     >
       <StyledSelectButton>
-        <StyledImage src={selectedVehicle?.imageUrl} />
+        <StyledImage src={vehicle.imageUrl} />
         <StyledSelectButtonCarData>
-          <div>{selectedVehicle?.name}</div>
+          <div>{vehicle.name}</div>
           <div>{isOpen ? <ChevronUp /> : <ChevronDown />}</div>
         </StyledSelectButtonCarData>
       </StyledSelectButton>
       <StyledOptionsWrapper>
         {vehicleList.length > 0 &&
           isOpen &&
-          vehicleList.map((vehicle) => (
+          vehicleList.map((vehicleFromList) => (
             <StyledOption
               key={vehicle.name}
-              onClick={() => handleVehicleSelection(vehicle)}
-              $isSelected={vehicle.name === selectedVehicle?.name}
+              onClick={() =>
+                handleVehicleSelection({
+                  [vehicleFromList.name]: vehicleFromList,
+                })
+              }
+              $isSelected={vehicle.name === vehicle.name}
             >
               <StyledImage src={vehicle.imageUrl} />
               <div>{vehicle.name}</div>

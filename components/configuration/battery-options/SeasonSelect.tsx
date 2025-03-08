@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../../ui/button';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
+import { TPartOfYear } from '../../../lib/getCarList';
 
 const StyledConfortSelect = styled.div`
   width: 90%;
@@ -18,24 +19,28 @@ const SeasonSelect = () => {
     useVehicleSelectionContext();
 
   if (!selectedVehicle) return;
-  const {
-    partOfYear: { autumn, summer, winter },
-    fullRange,
-  } = selectedVehicle;
 
-  const handleClick = (seasonValue: number) => {
-    handleEfficiencyValueChange({ partOfYear: seasonValue / fullRange });
+  const handleClick = (selectedSeason: keyof TPartOfYear) => {
+    selectedVehicle.map((vehicleRecord) => {
+      return Object.entries(vehicleRecord).map(([vehicleName, vehicle]) => {
+        const vehicleRange = vehicle.fullRange;
+        const seasonValue = vehicle.partOfYear[selectedSeason];
+        return handleEfficiencyValueChange(vehicleName, {
+          partOfYear: seasonValue / vehicleRange,
+        });
+      });
+    });
   };
 
   return (
     <StyledConfortSelect>
-      <StyledConfortButton onClick={() => handleClick(winter)}>
+      <StyledConfortButton onClick={() => handleClick('winter')}>
         wint
       </StyledConfortButton>
-      <StyledConfortButton onClick={() => handleClick(summer)}>
+      <StyledConfortButton onClick={() => handleClick('summer')}>
         summe
       </StyledConfortButton>
-      <StyledConfortButton onClick={() => handleClick(autumn)}>
+      <StyledConfortButton onClick={() => handleClick('autumn')}>
         autum
       </StyledConfortButton>
     </StyledConfortSelect>

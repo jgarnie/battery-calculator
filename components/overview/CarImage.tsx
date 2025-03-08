@@ -1,17 +1,15 @@
 import React from 'react';
-import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
 import styled from 'styled-components';
+import { TVehicleDataTransformed } from '../../app/contexts/VehicleDataContext';
 
 const StyledImage = styled.img`
   height: auto;
   width: 90%;
 `;
-const CarImage = () => {
-  const { selectedVehicle } = useVehicleSelectionContext();
-
+const CarImage = ({ vehicle }: { vehicle: TVehicleDataTransformed }) => {
   return (
     <div>
-      <StyledImage src={selectedVehicle?.imageUrl} />
+      <StyledImage src={vehicle?.imageUrl} />
     </div>
   );
 };
