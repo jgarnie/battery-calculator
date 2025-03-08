@@ -38,7 +38,7 @@ export const OptionsSelection = ({
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]"
+      className="min-h-[100px] max-w-md rounded-lg border md:min-w-[450px]"
       onLayout={calculateEfficiency}
       onMouseEnter={() => (layoutSafe.current = true)}
     >

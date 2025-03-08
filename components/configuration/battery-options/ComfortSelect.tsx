@@ -1,78 +1,53 @@
 import React, { useState } from 'react';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
-import { Button } from '../../ui/button';
+import { Button } from '../../ui/Buton';
 import SummerIcon from '../../icons/SummerIcon';
 import Winter from '../../icons/Winter';
-import styled from 'styled-components';
+import { Label } from '../../ui/Label';
 
-const StyledConfortSelect = styled.div`
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-const StyledConfortButton = styled(Button)<{ $isActive: boolean }>`
-  background-color: ${({ theme, $isActive }) =>
-    $isActive ? theme.color.tertiary : theme.color.background};
-  width: 40%;
-  cursor: pointer;
-`;
-type TConfortValue = {
-  label: string;
-  value: number;
-};
-
-//refactor
 const ComfortSelect = () => {
   const { selectedVehicle, handleEfficiencyValueChange } =
     useVehicleSelectionContext();
-  const [selectedOption, setSelectedOption] = useState<TConfortValue>({
-    label: '',
-    value: 0,
-  });
+  const [selectedOption, setSelectedOption] = useState('');
 
   if (!selectedVehicle) return;
   const { heatingConsumption, coolingConsumption } = selectedVehicle;
 
-  const handleClick = (valueData: TConfortValue) => {
-    if (valueData.label === 'heating') {
-      if (selectedOption.label === 'heating') {
-        return setSelectedOption({
-          label: '',
-          value: 0,
-        });
-      }
-      handleEfficiencyValueChange({ heatingConsumption: 50 });
-      return setSelectedOption({ label: 'heating', value: heatingConsumption });
+  const handleClick = (valueData: number, label: string | undefined) => {
+    if (!selectedOption) {
+      setSelectedOption(label || '');
+    } else if (selectedOption === label) {
+      setSelectedOption('');
+    } else {
+      setSelectedOption(label || '');
     }
-    if (selectedOption.label === 'cooling') {
-      return setSelectedOption({
-        label: '',
-        value: 0,
-      });
-    }
-    return setSelectedOption({ label: 'cooling', value: coolingConsumption });
+    handleEfficiencyValueChange({ heatingConsumption: valueData });
   };
 
   return (
-    <StyledConfortSelect>
-      <StyledConfortButton
-        onClick={() =>
-          handleClick({ label: 'heating', value: heatingConsumption })
-        }
-        $isActive={selectedOption.label === 'heating'}
-      >
-        <SummerIcon />
-      </StyledConfortButton>
-      <StyledConfortButton
-        onClick={() =>
-          handleClick({ label: 'heating', value: heatingConsumption })
-        }
-        $isActive={selectedOption.label === 'cooling'}
-      >
-        <Winter />
-      </StyledConfortButton>
-    </StyledConfortSelect>
+    <>
+      <Label label={'Cabin comfort'} />
+      <div className="flex  gap-3">
+        <Button
+          onClick={handleClick}
+          value={selectedOption !== 'heating' ? heatingConsumption : 0}
+          $isActive={selectedOption === 'heating'}
+          label="heating"
+          className="w-[50%]"
+        >
+          <SummerIcon />
+        </Button>
+        <Button
+          value={selectedOption !== 'cooling' ? coolingConsumption : 0}
+          onClick={handleClick}
+          $isActive={selectedOption === 'cooling'}
+          label="cooling"
+          className="w-[50%]"
+        >
+          <Winter />
+        </Button>
+      </div>
+    </>
   );
 };
 

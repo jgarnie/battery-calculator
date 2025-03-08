@@ -1,6 +1,7 @@
 import React from 'react';
 import { OptionsSelection } from '../options-selection/OptionsSelection';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
+import { Label } from '../../ui/Label';
 
 export const TypeOfRoad = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
@@ -25,5 +26,11 @@ export const TypeOfRoad = () => {
       value: outsideCity,
     },
   ];
-  return <OptionsSelection data={roadTypeData} type={'typeOfRoad'} />;
+
+  return (
+    <>
+      <Label label={'Type Of Road'} />
+      <OptionsSelection data={roadTypeData} type={'typeOfRoad'} />
+    </>
+  );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { OptionsSelection } from '../options-selection/OptionsSelection';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
+import { Label } from '../../ui/Label';
 
 const DrivingStyle = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
@@ -25,7 +26,12 @@ const DrivingStyle = () => {
     },
   ];
 
-  return <OptionsSelection data={drivingStyleData} type={'drivingStyle'} />;
+  return (
+    <>
+      <Label label={'Driving Style'} />
+      <OptionsSelection data={drivingStyleData} type={'drivingStyle'} />
+    </>
+  );
 };
 
 export default DrivingStyle;

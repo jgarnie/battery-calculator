@@ -1,19 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Button } from '../../ui/button';
+import React, { useState } from 'react';
+import { Button } from '../../ui/Buton';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
-
-const StyledConfortSelect = styled.div`
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-const StyledConfortButton = styled(Button)`
-  width: 40%;
-`;
+import { Label } from '../../ui/Label';
+import Image from 'next/image';
 
 const SeasonSelect = () => {
+  const [selectedSeason, setSelectedSeason] = useState('');
   const { selectedVehicle, handleEfficiencyValueChange } =
     useVehicleSelectionContext();
 
@@ -23,22 +15,51 @@ const SeasonSelect = () => {
     fullRange,
   } = selectedVehicle;
 
-  const handleClick = (seasonValue: number) => {
+  const handleClick = (seasonValue: number, label: string | undefined) => {
+    setSelectedSeason(label || '');
     handleEfficiencyValueChange({ partOfYear: seasonValue / fullRange });
   };
 
+  const seasonArray = ['winter', 'summer', 'autum'];
+  const getSeasonValue = (season: string) => {
+    switch (season) {
+      case 'winter':
+        return winter;
+      case 'autum':
+        return autumn;
+      case 'summer':
+        return summer;
+      default:
+        return summer;
+    }
+  };
+
   return (
-    <StyledConfortSelect>
-      <StyledConfortButton onClick={() => handleClick(winter)}>
-        wint
-      </StyledConfortButton>
-      <StyledConfortButton onClick={() => handleClick(summer)}>
-        summe
-      </StyledConfortButton>
-      <StyledConfortButton onClick={() => handleClick(autumn)}>
-        autum
-      </StyledConfortButton>
-    </StyledConfortSelect>
+    <div className="w-full">
+      <Label label={'Season'} />
+      <div className="flex gap-1 w-full flex-wrap ">
+        {seasonArray.map((season) => {
+          return (
+            <Button
+              value={getSeasonValue(season)}
+              key={season}
+              onClick={handleClick}
+              className="flex-grow max-h-[50px] flex items-center justify-center max-w-[33%]"
+              $isActive={selectedSeason === season}
+              label={season}
+            >
+              <Image
+                src={`/images/${season}.png`}
+                alt={`image of ${season}`}
+                width={20}
+                height={20}
+                className="w-full h-full object-contain"
+              />
+            </Button>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

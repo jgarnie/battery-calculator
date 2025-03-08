@@ -4,6 +4,7 @@ import {
   TVehicleDataTransformed,
   useVehicleDataContext,
 } from '../../app/contexts/VehicleDataContext';
+import Image from 'next/image';
 
 import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -43,11 +44,6 @@ const StyledOption = styled.div<{ $isSelected: boolean }>`
   padding: 20px 12px;
   width: 100%;
 `;
-const StyledImage = styled.img`
-  width: 30px;
-  height: auto;
-  margin-right: 4px;
-`;
 
 export const VehicleSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +82,15 @@ export const VehicleSelect = () => {
       role="button"
     >
       <StyledSelectButton>
-        <StyledImage src={selectedVehicle?.imageUrl} />
+        {selectedVehicle?.imageUrl && (
+          <Image
+            className="mr-2"
+            src={selectedVehicle.imageUrl}
+            alt="image of a car"
+            width={30}
+            height={20}
+          />
+        )}
         <StyledSelectButtonCarData>
           <div>{selectedVehicle?.name}</div>
           <div>{isOpen ? <ChevronUp /> : <ChevronDown />}</div>
@@ -101,7 +105,13 @@ export const VehicleSelect = () => {
               onClick={() => handleVehicleSelection(vehicle)}
               $isSelected={vehicle.name === selectedVehicle?.name}
             >
-              <StyledImage src={vehicle.imageUrl} />
+              <Image
+                className="mr-2"
+                src={vehicle.imageUrl}
+                alt="image of a car"
+                width={30}
+                height={20}
+              />
               <div>{vehicle.name}</div>
             </StyledOption>
           ))}

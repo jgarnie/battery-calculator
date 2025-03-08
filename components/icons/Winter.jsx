@@ -4,7 +4,7 @@ const Winter = () => {
   return (
     <svg
       width="20px"
-      height="200px"
+      height="20px"
       viewBox="0 0 36 36"
       aria-hidden="true"
       role="img"

@@ -49,7 +49,7 @@ function ResizableHandle({
       {withHandle && (
         <div
           className={cn(
-            'bg-border z-10 flex h-25 w-2 items-center justify-center rounded-xs border',
+            'bg-border z-10 flex h-full w-2 items-center justify-center rounded-xs border',
             classEl
           )}
         >
