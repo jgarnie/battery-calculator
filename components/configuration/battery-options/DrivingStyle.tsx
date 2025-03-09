@@ -2,6 +2,14 @@ import React from 'react';
 import { OptionsSelection } from '../options-selection/OptionsSelection';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { Label } from '../../ui/Label';
+import styled from 'styled-components';
+import { StyledSectionWrapper } from '../../utils';
+
+const StyledDrivingStyle = styled.div`
+  grid-area: driveType;
+  width: 100%;
+  height: 100%;
+`;
 
 const DrivingStyle = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
@@ -27,10 +35,12 @@ const DrivingStyle = () => {
   ];
 
   return (
-    <>
-      <Label label={'Driving Style'} />
-      <OptionsSelection data={drivingStyleData} type={'drivingStyle'} />
-    </>
+    <StyledDrivingStyle>
+      <StyledSectionWrapper>
+        <Label label={'Driving Style'} />
+        <OptionsSelection data={drivingStyleData} type={'drivingStyle'} />
+      </StyledSectionWrapper>
+    </StyledDrivingStyle>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 type ButtonProps = {
   onClick?: (value: number, label?: string) => void;
@@ -10,6 +11,19 @@ type ButtonProps = {
   label?: string;
 };
 
+const StyledButton = styled.button`
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 33%;
+  min-width: 30%;
+  background-color: ${({ theme }) =>
+    `linear-gradient(to right, ${theme.color.background}, ${theme.color.primary} 40%, ${theme.color.emphasis} 800px)`};
+`;
+
 export const Button: React.FC<ButtonProps> = ({
   onClick,
   $isActive = false,
@@ -20,18 +34,8 @@ export const Button: React.FC<ButtonProps> = ({
   label = '',
 }) => {
   return (
-    <button
-      onClick={() => onClick?.(value, label)}
-      disabled={$disabled}
-      className={`px-4 py-2 rounded-lg transition-colors flex justify-center  ${
-        $isActive
-          ? 'bg-blue-600 text-white'
-          : 'bg-gray-200 text-black hover:bg-gray-300'
-      } ${
-        $disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-      } ${className}`}
-    >
+    <StyledButton onClick={() => onClick?.(value, label)} disabled={$disabled}>
       {children}
-    </button>
+    </StyledButton>
   );
 };

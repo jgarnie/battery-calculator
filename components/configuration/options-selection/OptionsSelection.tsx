@@ -7,6 +7,16 @@ import {
 import Image from 'next/image';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { useRef, useCallback, Fragment } from 'react';
+import styled from 'styled-components';
+
+const StyledImageWrapper = styled.div<{ colorback: string }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: ${({ colorback }) => colorback};
+`;
 
 export const OptionsSelection = ({
   data,
@@ -35,23 +45,35 @@ export const OptionsSelection = ({
     },
     [data, handleEfficiencyValueChange, selectedVehicle?.fullRange, type]
   );
+  const getIndexColor = (index: number): string => {
+    switch (index) {
+      case 0:
+        return '#c71e51';
+      case 1:
+        return '#c77e1e';
+      case 2:
+        return '#14874e';
+    }
+    return '#bbfa7d';
+  };
 
   return (
     <ResizablePanelGroup
       direction="horizontal"
-      className="min-h-[50px] rounded-lg border md:min-w-full"
+      className="rounded-lg border-0"
       onLayout={calculateEfficiency}
+      onChange={() => console.log('hi')}
+      onDrag={() => console.log('hi2')}
       onMouseEnter={() => (layoutSafe.current = true)}
+      onTouchStart={() => (layoutSafe.current = true)}
     >
       {data.map((item, index) => {
-        console.log({ item });
-        console.log(`/images/${item.label.toLowerCase()}.png`);
-
+        const indexColor = getIndexColor(index);
         return (
           <Fragment key={`${index}-${item.label}`}>
             <ResizablePanel>
-              <div className="flex-col h-full items-center justify-center p-1 gap-1 bg-accent">
-                <div className="flex justify-center">
+              <StyledImageWrapper colorback={indexColor}>
+                <div>
                   <Image
                     width={24}
                     height={24}
@@ -59,15 +81,12 @@ export const OptionsSelection = ({
                     src={`/images/${item.label.toLowerCase()}.png`}
                   />
                 </div>
-                <div className="flex justify-center">{item.label}</div>
-              </div>
+
+                <div>{item.label} </div>
+              </StyledImageWrapper>
             </ResizablePanel>
-            {index < data.length - 1 && (
-              <ResizableHandle
-                withHandle
-                classEl={index < data.length - 2 ? 'self-start' : 'self-end'}
-              />
-            )}
+
+            {index < data.length - 1 && <ResizableHandle withHandle />}
           </Fragment>
         );
       })}

@@ -19,23 +19,23 @@ export const getImagesList = async (): Promise<TCarImageItem[] | []> => {
     },
     {
       model: 'BMW i3',
-      url: 'https://input-3d-assets.s3.amazonaws.com/BMW i3.jpeg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/BMW i3.png',
     },
     {
       model: 'Nissan Leaf',
-      url: 'https://input-3d-assets.s3.amazonaws.com/Nissan Leaf.jpg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Nissan Leaf.png',
     },
     {
       model: 'Renault Zoe',
-      url: 'https://input-3d-assets.s3.amazonaws.com/Renault Zoe.jpeg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Renault Zoe.png',
     },
     {
       model: 'Tesla Model 3',
-      url: 'https://input-3d-assets.s3.amazonaws.com/Tesla Model 3.jpg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Tesla Model 3.png',
     },
     {
       model: 'Volkswagen ID.3',
-      url: 'https://input-3d-assets.s3.amazonaws.com/Volkswagen ID.3.jpeg',
+      url: 'https://input-3d-assets.s3.amazonaws.com/Volkswagen ID.3.png',
     },
   ];
   const res = await fetch('/api/images');

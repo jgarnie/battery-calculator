@@ -3,6 +3,22 @@ import { Button } from '../../ui/Buton';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { Label } from '../../ui/Label';
 import Image from 'next/image';
+import styled from 'styled-components';
+import { StyledSectionWrapper } from '../../utils';
+
+const StyledSeasonSelect = styled.div`
+  grid-area: seasonSelect;
+  width: 100%;
+  margin: auto;
+  height: 100%;
+  align-items: stretch;
+`;
+
+const StyledButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 80%;
+`;
 
 const SeasonSelect = () => {
   const [selectedSeason, setSelectedSeason] = useState('');
@@ -35,33 +51,33 @@ const SeasonSelect = () => {
   };
 
   return (
-    <div className="w-full">
-      <Label label={'Season'} />
-      <div className="flex gap-1 w-full flex-wrap ">
-        {seasonArray.map((season) => {
-          return (
-            <Button
-              value={getSeasonValue(season)}
-              key={season}
-              onClick={handleClick}
-              className="flex-col flex-grow  items-center justify-center max-w-[33%]"
-              $isActive={selectedSeason === season}
-              label={season}
-            >
-              <Image
-                src={`/images/${season}.png`}
-                alt={`image of ${season}`}
-                width={20}
-                height={20}
-                className="w-[20px] h-[20px]"
-              />
-              {season.charAt(0).toUpperCase()}
-              {season.substring(1)}
-            </Button>
-          );
-        })}
-      </div>
-    </div>
+    <StyledSeasonSelect>
+      <StyledSectionWrapper>
+        <Label label={'Season'} />
+        <StyledButtonsWrapper>
+          {seasonArray.map((season) => {
+            return (
+              <Button
+                value={getSeasonValue(season)}
+                key={season}
+                onClick={handleClick}
+                $isActive={selectedSeason === season}
+                label={season}
+              >
+                <Image
+                  src={`/images/${season}.png`}
+                  alt={`image of ${season}`}
+                  width={20}
+                  height={20}
+                />
+                {season.charAt(0).toUpperCase()}
+                {season.substring(1)}
+              </Button>
+            );
+          })}
+        </StyledButtonsWrapper>
+      </StyledSectionWrapper>
+    </StyledSeasonSelect>
   );
 };
 

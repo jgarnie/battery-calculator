@@ -11,33 +11,26 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import styled, { css } from 'styled-components';
 
 const StyledSelect = styled.div`
-  width: 100%;
   position: relative;
-  background-color: ${({ theme }) => theme.color.background};
+  // background-color: ${({ theme }) => theme.color.background};
   position: sticky;
   top: 0;
   max-height: 50px;
-
-  @media (min-width: 960px) {
-    width: 50%;
-    max-width: 220px;
-    align-self: flex-end;
-  }
+  grid-area: select;
 `;
 const StyledSelectButton = styled.div`
   display: flex;
   padding: 12px;
-  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const StyledSelectButtonCarData = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
 `;
 const StyledOptionsWrapper = styled.div`
   position: absolute;
   background-color: ${({ theme }) => theme.color.background};
-  width: 100%;
 `;
 const StyledOption = styled.div<{ $isSelected: boolean }>`
   ${({ $isSelected, theme }) =>
@@ -50,7 +43,6 @@ const StyledOption = styled.div<{ $isSelected: boolean }>`
 
   display: flex;
   padding: 20px 12px;
-  width: 100%;
 `;
 
 export const VehicleSelect = () => {
@@ -77,13 +69,7 @@ export const VehicleSelect = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  // refactor to tailwind
-  // <div
-  // className="flex justify-between w-1/2 max-w-[220px]"
-  // ref={selectRef}
-  // onClick={() => setIsOpen(!isOpen)}
-  // role="button"
-  // >
+
   return (
     <StyledSelect
       ref={selectRef}
