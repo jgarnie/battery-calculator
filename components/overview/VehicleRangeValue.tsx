@@ -3,6 +3,9 @@ import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionC
 import { animated, useSpring } from '@react-spring/web';
 import styled from 'styled-components';
 import Battery from '../icons/Battery';
+import { calculateRange } from './utils/utils';
+import { efficiencyValues, rangeAtom, setEfficiencyValues } from '../../app/store/atoms';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 const StyledAnimatedDiv = styled(animated.div)`
   grid-area: range;
@@ -39,30 +42,30 @@ const RangeDiv = ({ n, initialRange }: { n: number; initialRange: number }) => {
     storedValue.current = n;
   }, [n]);
 
-  return (
-    <animated.div>
-      {number.to((value: number) => `${value.toFixed(0)}`)}
-    </animated.div>
-  );
+  return <animated.div>{number.to((value: number) => `${value.toFixed(0)}`)}</animated.div>;
 };
 
 const VehicleRangeValue = () => {
   const [batteryLines, setBatteryLines] = useState(4);
   const { selectedVehicle } = useVehicleSelectionContext();
-  const { range } = useVehicleSelectionContext();
+  const [range, setRange] = useAtom(rangeAtom);
+  const efficiencyValuesatom = useAtomValue(efficiencyValues);
+
   useEffect(() => {
-    if (!selectedVehicle?.fullRange) return;
+    if (!selectedVehicle?.fullRange || !range) return;
     const batteryPercentage = (range / selectedVehicle.fullRange) * 100;
     const lines = (batteryPercentage * 4) / 100;
 
     setBatteryLines(lines);
   }, [range, selectedVehicle?.fullRange]);
+
   if (!selectedVehicle?.fullRange) return;
 
+  setRange(calculateRange(efficiencyValuesatom, selectedVehicle?.fullRange));
   return (
     <StyledAnimatedDiv>
       <StyledRangeLabel>
-        <RangeDiv n={range} initialRange={selectedVehicle?.fullRange} />
+        <RangeDiv n={range || selectedVehicle?.fullRange} initialRange={selectedVehicle?.fullRange} />
         <span> &nbsp;km</span>
       </StyledRangeLabel>
       <Battery lines={batteryLines} />

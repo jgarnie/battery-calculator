@@ -19,7 +19,10 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   max-width: 33%;
+  position: relative;
   min-width: 30%;
+  max-height: 100px;
+  overflow: hidden;
   background-color: ${({ theme }) =>
     `linear-gradient(to right, ${theme.color.background}, ${theme.color.primary} 40%, ${theme.color.emphasis} 800px)`};
 `;

@@ -1,11 +1,5 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { getCarList, TVehicleDataApi } from '../../lib/getCarList';
 import { getImagesList, TCarImageItem } from '../../lib/getImages';
 
@@ -15,37 +9,20 @@ export type TVehicleDataTransformed = TVehicleDataApi & {
 
 type VehicleDataContextValue = {
   vehicleList: TVehicleDataTransformed[] | [];
-  setVehicleList: React.Dispatch<
-    React.SetStateAction<TVehicleDataTransformed[] | []>
-  >;
+  setVehicleList: React.Dispatch<React.SetStateAction<TVehicleDataTransformed[] | []>>;
 };
 
-const VehicleDataContext = createContext<VehicleDataContextValue | undefined>(
-  undefined
-);
+const VehicleDataContext = createContext<VehicleDataContextValue | undefined>(undefined);
 
-export function VehicleDataContextWrapper({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const [vehicleList, setVehicleList] = useState<
-    TVehicleDataTransformed[] | []
-  >([]);
+export function VehicleDataContextWrapper({ children }: { children: ReactNode }) {
+  const [vehicleList, setVehicleList] = useState<TVehicleDataTransformed[] | []>([]);
 
-  const addVehicleImage = (
-    data: TVehicleDataApi[],
-    images: TCarImageItem[]
-  ) => {
-    console.log({ data, images });
-
+  const addVehicleImage = (data: TVehicleDataApi[], images: TCarImageItem[]) => {
     return data.reduce<TVehicleDataTransformed[]>((acc, car) => {
       const imageUrl = images.find((imageData) => imageData.model === car.name);
 
       if (!imageUrl) {
-        console.error(
-          `Missing image for model ${car.name} please check your bucket`
-        );
+        console.error(`Missing image for model ${car.name} please check your bucket`);
         return acc;
       }
 
@@ -57,7 +34,6 @@ export function VehicleDataContextWrapper({
     const getData = async () => {
       const data = await getCarList();
       const images = await getImagesList();
-      console.log(images);
 
       const transFormedVehicleList = addVehicleImage(data, images);
 
@@ -81,9 +57,7 @@ export function VehicleDataContextWrapper({
 export function useVehicleDataContext() {
   const context = useContext(VehicleDataContext);
   if (!context) {
-    throw new Error(
-      'useVehicleDataContext must be used within a VehicleDataContext.provider'
-    );
+    throw new Error('useVehicleDataContext must be used within a VehicleDataContext.provider');
   }
   return context;
 }

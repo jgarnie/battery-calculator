@@ -1,13 +1,11 @@
 'use client';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from '@/components/ui/resizable';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import Image from 'next/image';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { useRef, useCallback, Fragment } from 'react';
 import styled from 'styled-components';
+import { setEfficiencyValues } from '../../../app/store/atoms';
+import { useSetAtom } from 'jotai';
 
 const StyledImageWrapper = styled.div<{ colorback: string }>`
   display: flex;
@@ -18,16 +16,11 @@ const StyledImageWrapper = styled.div<{ colorback: string }>`
   background-color: ${({ colorback }) => colorback};
 `;
 
-export const OptionsSelection = ({
-  data,
-  type,
-}: {
-  data: { label: string; value: number }[];
-  type: string;
-}) => {
-  const { selectedVehicle, handleEfficiencyValueChange } =
-    useVehicleSelectionContext();
+export const OptionsSelection = ({ data, type }: { data: { label: string; value: number }[]; type: string }) => {
+  const { selectedVehicle } = useVehicleSelectionContext();
   const layoutSafe = useRef(false);
+
+  const updateEfficiency = useSetAtom(setEfficiencyValues);
 
   const calculateEfficiency = useCallback(
     (values: number[]) => {
@@ -38,12 +31,10 @@ export const OptionsSelection = ({
         return (efficiency / fullRange) * value;
       });
 
-      const arithmeticMean =
-        efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
-
-      handleEfficiencyValueChange({ [type]: arithmeticMean });
+      const arithmeticMean = efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
+      updateEfficiency({ [type]: arithmeticMean });
     },
-    [data, handleEfficiencyValueChange, selectedVehicle?.fullRange, type]
+    [data, selectedVehicle?.fullRange, type, updateEfficiency]
   );
   const getIndexColor = (index: number): string => {
     switch (index) {

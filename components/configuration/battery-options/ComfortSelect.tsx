@@ -6,6 +6,8 @@ import { Label } from '../../ui/Label';
 import styled from 'styled-components';
 import { StyledSectionWrapper } from './../../utils';
 import HeatingIcon from './../../icons/Temperature';
+import { useSetAtom } from 'jotai';
+import { setEfficiencyValues } from '../../../app/store/atoms';
 
 const StyledCabin = styled.div`
   grid-area: cabin;
@@ -21,8 +23,9 @@ const StyledCabinWrap = styled.div`
   justify-content: space-evenly;
 `;
 const ComfortSelect = () => {
-  const { selectedVehicle, handleEfficiencyValueChange } = useVehicleSelectionContext();
+  const { selectedVehicle } = useVehicleSelectionContext();
   const [selectedOption, setSelectedOption] = useState('');
+  const updateEfficiency = useSetAtom(setEfficiencyValues); // ✅ Use Jotai's `useSetAtom`
 
   if (!selectedVehicle) return;
   const { heatingConsumption, coolingConsumption } = selectedVehicle;
@@ -35,7 +38,7 @@ const ComfortSelect = () => {
     } else {
       setSelectedOption(label || '');
     }
-    handleEfficiencyValueChange({ heatingConsumption: valueData });
+    updateEfficiency({ heatingConsumption: valueData });
   };
 
   return (

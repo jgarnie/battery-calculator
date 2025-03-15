@@ -1,49 +1,21 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
-import {
-  TVehicleDataTransformed,
-  useVehicleDataContext,
-} from './VehicleDataContext';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { TVehicleDataTransformed, useVehicleDataContext } from './VehicleDataContext';
 
 type VehicleSelectionContextValue = {
   selectedVehicle: TVehicleDataTransformed | undefined;
-  setSelectedVehicle: React.Dispatch<
-    React.SetStateAction<TVehicleDataTransformed | undefined>
-  >;
-  handleEfficiencyValueChange: (
-    value: Partial<Record<TCoefficientKey, number>>
-  ) => void;
+  setSelectedVehicle: React.Dispatch<React.SetStateAction<TVehicleDataTransformed | undefined>>;
+  handleEfficiencyValueChange: (value: Partial<Record<TCoefficientKey, number>>) => void;
   range: number;
 };
 
-type TCoefficientKey =
-  | 'partOfYear'
-  | 'typeOfRoad'
-  | 'drivingStyle'
-  | 'heatingConsumption'
-  | 'temperature';
+export type TCoefficientKey = 'partOfYear' | 'typeOfRoad' | 'drivingStyle' | 'heatingConsumption' | 'temperature';
 
-const VehicleSelectionContext = createContext<
-  VehicleSelectionContextValue | undefined
->(undefined);
+const VehicleSelectionContext = createContext<VehicleSelectionContextValue | undefined>(undefined);
 
-export function VehicleSelectionContextWrapper({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const [selectedVehicle, setSelectedVehicle] = useState<
-    TVehicleDataTransformed | undefined
-  >(undefined);
-  const [efficiencyValues, setEfficiencyValues] = useState<
-    Partial<Record<TCoefficientKey, number>>
-  >({});
+export function VehicleSelectionContextWrapper({ children }: { children: ReactNode }) {
+  const [selectedVehicle, setSelectedVehicle] = useState<TVehicleDataTransformed | undefined>(undefined);
+  const [efficiencyValues, setEfficiencyValues] = useState<Partial<Record<TCoefficientKey, number>>>({});
   const [range, setRange] = useState(selectedVehicle?.fullRange || 500);
   const { vehicleList } = useVehicleDataContext();
 
@@ -51,13 +23,11 @@ export function VehicleSelectionContextWrapper({
     setSelectedVehicle(vehicleList[0]);
   }, [vehicleList]);
 
-  const handleEfficiencyValueChange = (
-    value: Partial<Record<TCoefficientKey, number>>
-  ) => {
+  const handleEfficiencyValueChange = (value: Partial<Record<TCoefficientKey, number>>) => {
     console.log(value);
+    console.log('hi2');
 
     const coefficientState = { ...efficiencyValues, ...value };
-    console.log({ coefficientState });
 
     setEfficiencyValues(coefficientState);
   };
@@ -71,12 +41,10 @@ export function VehicleSelectionContextWrapper({
       fullRange: selectedVehicle?.fullRange || 500,
       partOfYear: efficiencyValues.partOfYear || 1,
     };
+    console.log('hi');
 
     const bateryRange =
-      sanitizedValue.fullRange *
-        sanitizedValue.drivingStyle *
-        sanitizedValue.partOfYear *
-        sanitizedValue.typeOfRoad -
+      sanitizedValue.fullRange * sanitizedValue.drivingStyle * sanitizedValue.partOfYear * sanitizedValue.typeOfRoad -
       sanitizedValue.temperature -
       sanitizedValue.heatingConsumption;
     setRange(Number(bateryRange.toFixed(0)));
@@ -99,9 +67,7 @@ export function VehicleSelectionContextWrapper({
 export function useVehicleSelectionContext() {
   const context = useContext(VehicleSelectionContext);
   if (!context) {
-    throw new Error(
-      'useVehicleDataContext must be used within a VehicleDataContext.provider'
-    );
+    throw new Error('useVehicleDataContext must be used within a VehicleDataContext.provider');
   }
   return context;
 }

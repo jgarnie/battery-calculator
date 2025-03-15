@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
 import { Label } from '../../ui/Label';
 import styled from 'styled-components';
 import { StyledSectionWrapper } from '../../utils';
+import { useSetAtom } from 'jotai';
+import { setEfficiencyValues } from '../../../app/store/atoms';
 
 const StyledTemperature = styled.div`
   grid-area: temperature;
@@ -30,13 +31,13 @@ const StyledTempValue = styled.div`
 
 const Temperature = () => {
   const [temperature, setTemperature] = useState<number | null>(null);
-  const { handleEfficiencyValueChange } = useVehicleSelectionContext();
+  const updateEfficiency = useSetAtom(setEfficiencyValues); // ✅ Use Jotai's `useSetAtom`
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log({ e });
     const value = Number(e.target.value);
     setTemperature(value);
-    handleEfficiencyValueChange({ temperature: value });
+    updateEfficiency({ temperature: value });
   };
 
   return (

@@ -3,7 +3,6 @@ import React from 'react';
 const Battery = ({ lines }: { lines: number }) => {
   let x1 = 2;
   let x2 = 2;
-  console.log({ lines });
 
   return (
     <svg
