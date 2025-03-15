@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Battery = ({ lines }: { lines: number }) => {
+const Battery = ({ lines, iconSize }: { lines: number; iconSize: number }) => {
   let x1 = 2;
   let x2 = 2;
 
   return (
     <svg
-      width="24"
-      height="24"
+      width={iconSize}
+      height={iconSize}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

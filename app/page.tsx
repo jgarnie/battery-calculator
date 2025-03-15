@@ -3,11 +3,7 @@ import Configuration from '../components/configuration/Configuration';
 import { VehicleOverview } from '../components/overview/VehicleOverview';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
-import {
-  desktopGridArea,
-  landscapeGridArea,
-  mobileGridArea,
-} from './GridAreas';
+import { desktopGridArea, landscapeGridArea, mobileGridArea } from './GridAreas';
 
 const StyledAppWrapper = styled.div`
   display: grid;
@@ -20,12 +16,15 @@ const StyledAppWrapper = styled.div`
   background-position: 50% 100%;
   background-repeat: no-repeat;
   color: white;
-  ${mobileGridArea} @media (orientation: landscape) {
+  ${mobileGridArea}
+  @media (orientation: landscape) {
     ${landscapeGridArea};
   }
 
   @media (min-width: 960px) {
     ${desktopGridArea};
+    background-image: ${({ theme }) =>
+      `linear-gradient(to right, ${theme.color.primary}, ${theme.color.background} 40%, ${theme.color.background} 90%)`};
   }
 `;
 

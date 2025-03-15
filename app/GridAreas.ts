@@ -11,7 +11,7 @@ export const mobileGridArea = css`
     'temperature temperature';
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(7, auto);
-  gap: 15px;
+  gap: 15px 0px;
 `;
 
 export const desktopGridArea = css`
@@ -31,7 +31,7 @@ export const landscapeGridArea = css`
     'select seasonSelect'
     'image roadType'
     'image driveType'
-    'range cabin'
+    'image cabin'
     'range temperature';
   gap: 10px;
   grid-template-columns: repeat(2, 1fr);

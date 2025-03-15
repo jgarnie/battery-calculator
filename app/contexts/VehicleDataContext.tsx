@@ -36,6 +36,7 @@ export function VehicleDataContextWrapper({ children }: { children: ReactNode })
       const images = await getImagesList();
 
       const transFormedVehicleList = addVehicleImage(data, images);
+      console.log({ images });
 
       setVehicleList(transFormedVehicleList);
     };

@@ -3,6 +3,8 @@ import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionC
 import Image from 'next/image';
 import styled from 'styled-components';
 import { rangePercentage } from '../../lib/utils';
+import { rangeAtomValue } from '../../app/store/atoms';
+import { useAtomValue } from 'jotai';
 
 const StyledImageWrapper = styled.div`
   grid-area: image;
@@ -24,15 +26,17 @@ const StyledSectionWrapper = styled.div`
 
 const StyledImage = styled(Image)<{ $availablebattery: string }>`
   object-fit: fill;
-  filter: drop-shadow(
-    1px 1px 3px ${({ $availablebattery }) => $availablebattery}
-  );
+  filter: drop-shadow(1px 1px 3px ${({ $availablebattery }) => $availablebattery});
+  max-height: 300px;
+  max-width: 600px;
 `;
 
 const CarImage = () => {
-  const { selectedVehicle, range } = useVehicleSelectionContext();
+  const { selectedVehicle } = useVehicleSelectionContext();
+  const rangeValue = useAtomValue(rangeAtomValue);
+
   if (!selectedVehicle?.imageUrl) return;
-  const availableBattery = rangePercentage(selectedVehicle?.fullRange, range);
+  const availableBattery = rangePercentage(selectedVehicle?.fullRange, rangeValue || selectedVehicle.fullRange);
 
   return (
     <StyledImageWrapper>

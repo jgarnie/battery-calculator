@@ -1,9 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  TVehicleDataTransformed,
-  useVehicleDataContext,
-} from '../../app/contexts/VehicleDataContext';
+import { TVehicleDataTransformed, useVehicleDataContext } from '../../app/contexts/VehicleDataContext';
 import Image from 'next/image';
 
 import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
@@ -11,26 +8,34 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import styled, { css } from 'styled-components';
 
 const StyledSelect = styled.div`
-  position: relative;
-  // background-color: ${({ theme }) => theme.color.background};
-  position: sticky;
-  top: 0;
-  max-height: 50px;
+  background-color: ${({ theme }) => theme.color.background};
+  max-height: 60px;
   grid-area: select;
+  height: 100%;
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 const StyledSelectButton = styled.div`
   display: flex;
-  padding: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  padding: 10px;
+  height: 100%;
 `;
 const StyledSelectButtonCarData = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
-const StyledOptionsWrapper = styled.div`
+const StyledOptionsWrapper = styled.div<{ $elementWidth: number }>`
   position: absolute;
+  z-index: 10;
   background-color: ${({ theme }) => theme.color.background};
+  width: ${({ $elementWidth }) => $elementWidth}px;
 `;
 const StyledOption = styled.div<{ $isSelected: boolean }>`
   ${({ $isSelected, theme }) =>
@@ -56,10 +61,7 @@ export const VehicleSelect = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
+      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -71,27 +73,14 @@ export const VehicleSelect = () => {
   }, []);
 
   return (
-    <StyledSelect
-      ref={selectRef}
-      onClick={() => setIsOpen(!isOpen)}
-      role="button"
-    >
+    <StyledSelect ref={selectRef} onClick={() => setIsOpen(!isOpen)} role="button">
       <StyledSelectButton>
-        {selectedVehicle?.imageUrl && (
-          <Image
-            className="mr-2"
-            src={selectedVehicle.imageUrl}
-            alt="image of a car"
-            width={30}
-            height={20}
-          />
-        )}
         <StyledSelectButtonCarData>
           <div>{selectedVehicle?.name}</div>
           <div>{isOpen ? <ChevronUp /> : <ChevronDown />}</div>
         </StyledSelectButtonCarData>
       </StyledSelectButton>
-      <StyledOptionsWrapper>
+      <StyledOptionsWrapper $elementWidth={selectRef.current?.clientWidth || 100}>
         {vehicleList.length > 0 &&
           isOpen &&
           vehicleList.map((vehicle) => (
@@ -101,6 +90,8 @@ export const VehicleSelect = () => {
               $isSelected={vehicle.name === selectedVehicle?.name}
             >
               <Image
+                sizes="100vw"
+                style={{ maxWidth: '30px', maxHeight: '20px' }}
                 className="mr-2"
                 src={vehicle.imageUrl}
                 alt="image of a car"

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { StyledSectionWrapper } from '../../utils';
 import { useSetAtom } from 'jotai';
-import { setEfficiencyValues } from '../../../app/store/atoms';
+import { setEfficiencyValuesAtom } from '../../../app/store/atoms';
 
 const StyledSeasonSelect = styled.div`
   grid-area: seasonSelect;
@@ -24,7 +24,7 @@ const StyledButtonsWrapper = styled.div`
 const SeasonSelect = () => {
   const [selectedSeason, setSelectedSeason] = useState('');
   const { selectedVehicle } = useVehicleSelectionContext();
-  const updateEfficiency = useSetAtom(setEfficiencyValues);
+  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom);
 
   if (!selectedVehicle) return;
   const {
@@ -72,17 +72,17 @@ const SeasonSelect = () => {
                 )}
                 {selectedSeason !== 'summer' &&
                   season === selectedSeason &&
-                  Array.from({ length: 6 }).map((_, i) => (
+                  Array.from({ length: 15 }).map((_, i) => (
                     <StyledWrap
                       key={i}
                       left={Math.floor(Math.random() * 100)}
-                      delay={Math.floor(Math.random() * 2) + i * Math.random() + i}
+                      delay={Math.floor(Math.random() * 2) + i * Math.random() * 2}
                     >
                       {selectedSeason === 'winter' && season === selectedSeason && (
-                        <SnowFlakeIcon size={Math.floor(Math.random() * (12 - 6 + 1)) + 6} />
+                        <SnowFlakeIcon size={Math.floor(Math.random() * 7) + 6} />
                       )}
                       {selectedSeason === 'autumn' && season === selectedSeason && (
-                        <LeaveIcon size={Math.floor(Math.random() * (12 - 6 + 1)) + 6} />
+                        <LeaveIcon size={Math.floor(Math.random() * 7) + 6} />
                       )}
                     </StyledWrap>
                   ))}

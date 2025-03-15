@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { StyledSectionWrapper } from './../../utils';
 import HeatingIcon from './../../icons/Temperature';
 import { useSetAtom } from 'jotai';
-import { setEfficiencyValues } from '../../../app/store/atoms';
+import { setEfficiencyValuesAtom } from '../../../app/store/atoms';
 
 const StyledCabin = styled.div`
   grid-area: cabin;
@@ -25,7 +25,7 @@ const StyledCabinWrap = styled.div`
 const ComfortSelect = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
   const [selectedOption, setSelectedOption] = useState('');
-  const updateEfficiency = useSetAtom(setEfficiencyValues); // ✅ Use Jotai's `useSetAtom`
+  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom); // ✅ Use Jotai's `useSetAtom`
 
   if (!selectedVehicle) return;
   const { heatingConsumption, coolingConsumption } = selectedVehicle;
@@ -51,6 +51,7 @@ const ComfortSelect = () => {
             value={selectedOption !== 'heating' ? heatingConsumption : 0}
             $isActive={selectedOption === 'heating'}
             label="heating"
+            confortButtonType="heating"
           >
             <HeatingIcon />
           </Button>
@@ -59,6 +60,7 @@ const ComfortSelect = () => {
             onClick={handleClick}
             $isActive={selectedOption === 'cooling'}
             label="cooling"
+            confortButtonType="cooling"
           >
             <Winter />
           </Button>

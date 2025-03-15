@@ -3,7 +3,7 @@ import { Label } from '../../ui/Label';
 import styled from 'styled-components';
 import { StyledSectionWrapper } from '../../utils';
 import { useSetAtom } from 'jotai';
-import { setEfficiencyValues } from '../../../app/store/atoms';
+import { setEfficiencyValuesAtom } from '../../../app/store/atoms';
 
 const StyledTemperature = styled.div`
   grid-area: temperature;
@@ -31,10 +31,9 @@ const StyledTempValue = styled.div`
 
 const Temperature = () => {
   const [temperature, setTemperature] = useState<number | null>(null);
-  const updateEfficiency = useSetAtom(setEfficiencyValues); // ✅ Use Jotai's `useSetAtom`
+  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom); // ✅ Use Jotai's `useSetAtom`
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log({ e });
     const value = Number(e.target.value);
     setTemperature(value);
     updateEfficiency({ temperature: value });
@@ -45,7 +44,7 @@ const Temperature = () => {
       <StyledSectionWrapper>
         <StyledLabelWrapper>
           <Label label={'Street Temperature'} />
-          <StyledTempValue>{temperature ?? null}</StyledTempValue>
+          <StyledTempValue>{temperature ?? null}&deg;C</StyledTempValue>
         </StyledLabelWrapper>
         <StyledSlider
           type="range"

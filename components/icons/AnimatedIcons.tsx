@@ -43,7 +43,6 @@ const StyledLeave = styled.svg<{ degree: string; animationDuration: number }>`
 export const LeaveIcon = ({ size }: { size: number }) => {
   const leaveAngle = Math.floor(Math.random() * 91);
   const degree = Math.random() > 0.5 ? leaveAngle + 'deg' : -leaveAngle + 'deg';
-  console.log({ degree });
 
   return (
     <StyledLeave
