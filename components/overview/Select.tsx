@@ -1,11 +1,11 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { TVehicleDataTransformed, useVehicleDataContext } from '../../app/contexts/VehicleDataContext';
 import Image from 'next/image';
 
 import { useVehicleSelectionContext } from '../../app/contexts/VehicleSelectionContext';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import styled, { css } from 'styled-components';
+import { useSetupContext, TVehicleDataTransformed } from '../../app/contexts/SeupContext';
 
 const StyledSelect = styled.div`
   background-color: ${({ theme }) => theme.color.background};
@@ -52,7 +52,8 @@ const StyledOption = styled.div<{ $isSelected: boolean }>`
 
 export const VehicleSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { vehicleList } = useVehicleDataContext();
+  const { vehicleList } = useSetupContext();
+
   const { selectedVehicle, setSelectedVehicle } = useVehicleSelectionContext();
   const selectRef = useRef<HTMLDivElement | null>(null);
   const handleVehicleSelection = (vehicleName: TVehicleDataTransformed) => {

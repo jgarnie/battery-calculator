@@ -34,12 +34,33 @@ const VehicleDataSchema = z.object({
   coolingConsumption: z.number(),
 });
 
-export const getCarList = async (): Promise<TVehicleDataApi[]> => {
-  const res = await fetch('/api/cars');
-  if (!res.ok) throw new Error('Failed to fetch data');
-  const data = await res.json();
+export type TCarImageItem = {
+  model: string;
+  url: string;
+};
 
-  const sanitizedData = data.map((vehicleData: unknown) => {
+export type TAppConfigurationApi = {
+  id: TAppConfigurationKeys;
+  type: string;
+};
+
+export type TAppConfigurationKeys = 'seasonSelect' | 'typeOfRoad' | 'drivingStyle' | 'interiorComfort' | 'temperature';
+
+export type TSetup = {
+  images: TCarImageItem[];
+  cars: TVehicleDataApi[];
+  configuration: TAppConfigurationApi[];
+};
+export const getSetup = async (): Promise<TSetup> => {
+  const res = await fetch('/api/setup-api');
+  if (!res.ok) throw new Error('Failed to fetch configuration');
+  console.log({ res });
+
+  const setupData = await res.json();
+  const { images, cars, configuration } = setupData;
+  console.log({ setupData });
+
+  const carData = cars.map((vehicleData: unknown) => {
     const parseVehicleData = VehicleDataSchema.safeParse(vehicleData);
     if (parseVehicleData.success) {
       return parseVehicleData.data;
@@ -48,5 +69,5 @@ export const getCarList = async (): Promise<TVehicleDataApi[]> => {
     return undefined;
   });
 
-  return sanitizedData.filter(Boolean);
+  return { images, cars: carData.filter(Boolean), configuration };
 };

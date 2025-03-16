@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { TVehicleDataTransformed, useVehicleDataContext } from './VehicleDataContext';
+import { useSetupContext, TVehicleDataTransformed } from './SeupContext';
 
 type VehicleSelectionContextValue = {
   selectedVehicle: TVehicleDataTransformed | undefined;
@@ -13,7 +13,7 @@ const VehicleSelectionContext = createContext<VehicleSelectionContextValue | und
 
 export function VehicleSelectionContextWrapper({ children }: { children: ReactNode }) {
   const [selectedVehicle, setSelectedVehicle] = useState<TVehicleDataTransformed | undefined>(undefined);
-  const { vehicleList } = useVehicleDataContext();
+  const { vehicleList } = useSetupContext();
 
   useEffect(() => {
     setSelectedVehicle(vehicleList[0]);

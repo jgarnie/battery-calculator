@@ -4,7 +4,7 @@ import { TypeOfRoad } from './battery-options/TypeOfRoad';
 import DrivingStyle from './battery-options/DrivingStyle';
 import ComfortSelect from './battery-options/ComfortSelect';
 import Temperature from './battery-options/Temperature';
-import { TAppConfigurationApi } from '../../lib/getConfiguration';
+import { TAppConfigurationApi } from '../../lib/getSetup';
 
 const knownOptions = {
   seasonSelect: SeasonSelect,
