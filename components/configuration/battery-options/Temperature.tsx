@@ -31,7 +31,7 @@ const StyledTempValue = styled.div`
 
 const Temperature = () => {
   const [temperature, setTemperature] = useState<number | null>(null);
-  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom); // ✅ Use Jotai's `useSetAtom`
+  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);

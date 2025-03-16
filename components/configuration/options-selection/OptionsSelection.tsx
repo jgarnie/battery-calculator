@@ -1,4 +1,3 @@
-'use client';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import Image from 'next/image';
 import { useVehicleSelectionContext } from '../../../app/contexts/VehicleSelectionContext';
@@ -35,7 +34,7 @@ export const OptionsSelection = ({ data, type }: { data: { label: string; value:
       if (!layoutSafe.current) return;
       const efficiencyValues = values.map((value, index) => {
         setOptionsValues((prevOptionsValues) => {
-          const updatedOptionsValues = [...prevOptionsValues]; // Copy the array
+          const updatedOptionsValues = [...prevOptionsValues];
           values.forEach((value, index) => {
             updatedOptionsValues[index] = value;
           });
@@ -50,7 +49,7 @@ export const OptionsSelection = ({ data, type }: { data: { label: string; value:
       const arithmeticMean = efficiencyValues.reduce((acc, val) => acc + val, 0) / 100;
       updateEfficiency({ [type]: arithmeticMean });
     },
-    [data, optionsValues, selectedVehicle?.fullRange, type, updateEfficiency]
+    [data, selectedVehicle?.fullRange, type, updateEfficiency]
   );
   const getIndexColor = (index: number): string => {
     const notActivePicker = !layoutSafe.current;

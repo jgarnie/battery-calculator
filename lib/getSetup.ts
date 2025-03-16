@@ -52,7 +52,13 @@ export type TSetup = {
   configuration: TAppConfigurationApi[];
 };
 export const getSetup = async (): Promise<TSetup> => {
-  const res = await fetch('/api/setup-api');
+  const API_URL =
+    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://battery-calculator-five.vercel.app';
+
+  const res = await fetch(`${API_URL}/api/setup-api`, {
+    cache: 'force-cache',
+  });
+
   if (!res.ok) throw new Error('Failed to fetch configuration');
   console.log({ res });
 

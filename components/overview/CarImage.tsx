@@ -19,7 +19,7 @@ const StyledSectionWrapper = styled.div`
   margin: auto;
   width: 100%;
   height: 80%;
-  @media (min-width: 560px) {
+  @media (min-width: 960px) {
     height: 100%;
   }
 `;

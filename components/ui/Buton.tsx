@@ -24,17 +24,22 @@ const StyledButton = styled.button<{ $isActive: boolean; $confortButtonClass: st
   max-height: 100px;
   overflow: hidden;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.5s;
   background-color: ${({ theme, $isActive }) => ($isActive ? theme.color.tertiary : theme.color.primary)};
-  &:hover {
-    background-color: ${({ theme }) => theme.color.tertiary};
-  }
   box-shadow: ${({ $isActive, theme, $confortButtonClass }) =>
     $isActive
       ? $confortButtonClass && $confortButtonClass.length
         ? $confortButtonClass
         : `inset 0 0 3px 3px  ${theme.color.emphasis}`
       : `0 0 3px 3px  ${theme.color.tertiary}`};
+  &:active {
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.color.tertiary : theme.color.primary)};
+  }
+  @media (min-width: 960px) {
+    &:hover {
+      background-color: ${({ theme }) => theme.color.tertiary};
+    }
+  }
 `;
 
 export const Button: React.FC<ButtonProps> = ({

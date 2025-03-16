@@ -16,7 +16,7 @@ const StyledAnimatedDiv = styled(animated.div)`
   background-color: ${({ theme }) => theme.color.secondary};
   color: white;
 
-  @media (max-width: 600px) {
+  @media (max-width: 706px) {
     max-height: 60px;
     font-size: 16px;
   }

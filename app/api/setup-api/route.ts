@@ -11,6 +11,8 @@ const CONFIGURATION_OPTIONS = [
   { id: 'temperature', type: 'slider' },
 ];
 
+export const revalidate = 60;
+
 export async function GET() {
   try {
     const lambdaClient = new LambdaClient({
@@ -28,7 +30,9 @@ export async function GET() {
           InvocationType: 'RequestResponse',
         })
       ),
-      fetch('https://oh-so-dummy-backend.vercel.app/api/cars'),
+      fetch('https://oh-so-dummy-backend.vercel.app/api/cars', {
+        cache: 'force-cache',
+      }),
     ]);
 
     const lambdaPayload = JSON.parse(new TextDecoder().decode(lambdaResponse.Payload));

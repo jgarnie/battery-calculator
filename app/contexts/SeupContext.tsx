@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { getSetup, TCarImageItem, TVehicleDataApi, TAppConfigurationApi } from '../../lib/getSetup';
+import { TCarImageItem, TVehicleDataApi, TAppConfigurationApi, TSetup } from '../../lib/getSetup';
 
 type TSetupContextWrapperContext = {
   appConfiguration: TAppConfigurationApi[] | [];
@@ -13,9 +13,10 @@ export type TVehicleDataTransformed = TVehicleDataApi & {
 
 const SetupContextWrapperContext = createContext<TSetupContextWrapperContext | undefined>(undefined);
 
-export function SetupContextWrapper({ children }: { children: ReactNode }) {
+export function SetupContextWrapper({ children, setupData }: { children: ReactNode; setupData: TSetup }) {
   const [appConfiguration, setAppConfiguration] = useState<TAppConfigurationApi[] | []>([]);
   const [vehicleList, setVehicleList] = useState<TVehicleDataTransformed[] | []>([]);
+  const { cars, configuration, images } = setupData;
 
   const addVehicleImage = (cars: TVehicleDataApi[], images: TCarImageItem[]) => {
     console.log({ cars, images });
@@ -37,8 +38,6 @@ export function SetupContextWrapper({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const getData = async () => {
-      const { cars, configuration, images } = await getSetup();
-
       setAppConfiguration(configuration);
       const transFormedVehicleList = addVehicleImage(cars, images);
       console.log({ cars, configuration, images });
@@ -46,7 +45,7 @@ export function SetupContextWrapper({ children }: { children: ReactNode }) {
       setVehicleList(transFormedVehicleList);
     };
     getData();
-  }, []);
+  }, [cars, configuration, images]);
 
   return (
     <SetupContextWrapperContext.Provider

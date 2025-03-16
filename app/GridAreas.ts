@@ -33,7 +33,7 @@ export const landscapeGridArea = css`
     'image driveType'
     'image cabin'
     'range temperature';
-  gap: 10px;
+  gap: 0 10px;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(5, auto);
 `;

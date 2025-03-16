@@ -25,7 +25,7 @@ const StyledCabinWrap = styled.div`
 const ComfortSelect = () => {
   const { selectedVehicle } = useVehicleSelectionContext();
   const [selectedOption, setSelectedOption] = useState('');
-  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom); // ✅ Use Jotai's `useSetAtom`
+  const updateEfficiency = useSetAtom(setEfficiencyValuesAtom);
 
   if (!selectedVehicle) return;
   const { heatingConsumption, coolingConsumption } = selectedVehicle;
